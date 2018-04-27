@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import WeatherMobile
 
 class CityAddTests: XCTestCase {
     
