@@ -81,17 +81,17 @@ class CityListPresenter{
         var updatedUserCityList = self.getSavedUserCities()
         
         switch self.sort {
-        case 0:
-            updatedUserCityList = updatedUserCityList.sorted { $0.city < $1.city }
-            break
-        case 1:
-            updatedUserCityList = updatedUserCityList.sorted { $0.temperature > $1.temperature }
-            break
-        case 2:
-            updatedUserCityList = updatedUserCityList.sorted { $0.temperature < $1.temperature }
-            break
-        default:
-            break
+            case 0:
+                updatedUserCityList = updatedUserCityList.sorted { $0.city < $1.city }
+                break
+            case 1:
+                updatedUserCityList = updatedUserCityList.sorted { $0.temperature > $1.temperature }
+                break
+            case 2:
+                updatedUserCityList = updatedUserCityList.sorted { $0.temperature < $1.temperature }
+                break
+            default:
+                break
         }
         
         return updatedUserCityList

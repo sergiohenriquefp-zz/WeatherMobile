@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 protocol CityAddProtocol: NSObjectProtocol{
+    
+    var searchBar : UISearchBar? { get set }
     func setCities(_ cities: [CityObject])
     func setEmptyCities()
 }
@@ -32,17 +35,16 @@ class CityAddPresenter{
     
     func searchCities(_ text:String) {
         
-        self.cityAddService.searchCity(text) { (cities) in
-            if cities.count == 0{
-                self.cityAddView?.setEmptyCities()
-            }
-            else{
-                self.cityAddView?.setCities(cities)
+        self.cityAddService.searchCity(text) { (cities, searchText) in
+            
+            if self.cityAddView?.searchBar?.text == searchText{
+                if cities.count == 0{
+                    self.cityAddView?.setEmptyCities()
+                }
+                else{
+                    self.cityAddView?.setCities(cities)
+                }
             }
         }
-    }
-    
-    func addCity(_ city:CityObject) {
-        
     }
 }

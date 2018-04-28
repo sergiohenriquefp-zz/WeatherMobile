@@ -15,12 +15,12 @@ protocol CityAddDelegate{
 class CityAddView: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar?
-    @IBOutlet weak var emptyView: UIView?
+    @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     var delegate: CityAddDelegate?
     
-    fileprivate let cityAddPresenter = CityAddPresenter(cityAddService: CityAddService())
+    var cityAddPresenter = CityAddPresenter(cityAddService: CityAddService())
     fileprivate var citiesToDisplay = [CityObject]()
     
     override func viewDidLoad() {
@@ -28,10 +28,6 @@ class CityAddView: UIViewController {
         
         cityAddPresenter.attachView(self)
         cityAddPresenter.searchCities("")
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 }
 
@@ -58,16 +54,9 @@ extension CityAddView : UITableViewDelegate {
 }
 
 extension CityAddView : UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
-    }
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
-    }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.cityAddPresenter.searchCities(searchText)
     }
-    
 }
 
 extension CityAddView: CityAddProtocol{
@@ -81,6 +70,7 @@ extension CityAddView: CityAddProtocol{
         citiesToDisplay = []
         tableView?.isHidden = true
         emptyView?.isHidden = false;
+        tableView?.reloadData()
     }
 }
 

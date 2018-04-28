@@ -10,9 +10,10 @@ import UIKit
 
 class CityListView: UIViewController {
     
-    @IBOutlet weak var emptyView: UIView?
+    @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var segementedControl: UISegmentedControl!
     @IBOutlet weak var btnAddCity: UIButton!
     
     fileprivate let cityListPresenter = CityListPresenter()
@@ -25,13 +26,12 @@ class CityListView: UIViewController {
         cityListPresenter.getUserCities()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func getCitiesToDisplay() -> [CityObject] {
+        return citiesToDisplay
     }
     
     @IBAction func buttonAddCityTap(_ sender: Any) {
         
-        UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CityAdd")
         let vc: CityAddView = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CityAdd") as! CityAddView
         vc.delegate = self
         self.present(vc, animated: true, completion: nil)
@@ -48,8 +48,6 @@ extension CityListView: UITableViewDelegate {
         if editingStyle == .delete {
             let cityViewData = self.citiesToDisplay[indexPath.row]
             cityListPresenter.removeUserCity(cityViewData)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
 }
@@ -81,6 +79,7 @@ extension CityListView: CityListProtocol{
         citiesToDisplay = []
         tableView?.isHidden = true
         emptyView?.isHidden = false;
+        tableView?.reloadData()
     }
 
 }
@@ -88,8 +87,7 @@ extension CityListView: CityListProtocol{
 extension CityListView: CityAddDelegate{
     
     func addCity(_ city:CityObject){
-        self.dismiss(animated: true) {
-            self.cityListPresenter.addUserCity(city)
-        }
+        self.cityListPresenter.addUserCity(city)
+        self.dismiss(animated: true, completion: nil)
     }
 }

@@ -7,20 +7,23 @@
 //
 
 import XCTest
+@testable import WeatherMobile
 
 class WeatherMobileUITests: XCTestCase {
-        
+    
+    var app: XCUIApplication!
+    
+    let cityObj1 = CityObject(id:"1", city:"Campinas", temperature:"26", minTemperature:"20", maxTemperature:"30", humidity:"30%", weatherCondition:"Clear")
+    let cityObj2 = CityObject(id:"2", city:"Sao Paulo", temperature:"22", minTemperature:"18", maxTemperature:"24", humidity:"30%", weatherCondition:"Clear")
+    let cityObj3 = CityObject(id:"3", city:"Rio de Janeiro", temperature:"30", minTemperature:"26", maxTemperature:"34", humidity:"60%", weatherCondition:"Clear")
+    
     override func setUp() {
         super.setUp()
         
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        app = XCUIApplication()
+        app.launch()
+        sleep(2)
     }
     
     override func tearDown() {
@@ -28,9 +31,13 @@ class WeatherMobileUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testSwipeToDelete(){
+        let cities = [cityObj1]
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(cities), forKey:"userCitiesList")
+        
+        let tablesQuery = app.tables.cells
+        tablesQuery.element(boundBy: 0).swipeLeft()
+        tablesQuery.element(boundBy: 0).buttons["Delete"].tap()
+        
     }
-    
 }
