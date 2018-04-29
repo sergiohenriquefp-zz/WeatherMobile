@@ -7,23 +7,24 @@
 //
 
 import XCTest
-@testable import WeatherMobile
 
-class WeatherMobileUITests: XCTestCase {
+class WeatherMobileUITests: BaseUITest {
     
     var app: XCUIApplication!
     
-    let cityObj1 = CityObject(id:"1", city:"Campinas", temperature:"26", minTemperature:"20", maxTemperature:"30", humidity:"30%", weatherCondition:"Clear")
-    let cityObj2 = CityObject(id:"2", city:"Sao Paulo", temperature:"22", minTemperature:"18", maxTemperature:"24", humidity:"30%", weatherCondition:"Clear")
-    let cityObj3 = CityObject(id:"3", city:"Rio de Janeiro", temperature:"30", minTemperature:"26", maxTemperature:"34", humidity:"60%", weatherCondition:"Clear")
+    var cityObj1: City?
+    var cityObj2: City?
+    var cityObj3: City?
     
     override func setUp() {
         super.setUp()
         
+        cityObj1 = self.getMockedCity1()
+        cityObj2 = self.getMockedCity2()
+        cityObj3 = self.getMockedCity3()
         continueAfterFailure = false
         app = XCUIApplication()
         app.launch()
-        sleep(2)
     }
     
     override func tearDown() {
@@ -31,13 +32,44 @@ class WeatherMobileUITests: XCTestCase {
         super.tearDown()
     }
     
+    func addCityWithName(name:String){
+        self.waitAndTapElement(element: app.buttons["btn_add_city"])
+        self.waitTapAndTypeElement(element: app.searchFields.firstMatch, text:name)
+        self.waitAndTapElement(element: app.tables.cells.firstMatch)
+    }
+    
+    func swipeToDeleteCell(element: XCUIElement) {
+        self.waitElement(element: element)
+        self.waitElementAndSwipeLeft(element: element)
+        self.waitAndTapElement(element: element.buttons["Delete"])
+    }
+    
+    func testAddCity(){
+        self.addCityWithName(name: (cityObj1?.name)!)
+        self.addCityWithName(name: (cityObj2?.name)!)
+        self.addCityWithName(name: (cityObj3?.name)!)
+    }
+    
     func testSwipeToDelete(){
-        let cities = [cityObj1]
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(cities), forKey:"userCitiesList")
         
-        let tablesQuery = app.tables.cells
-        tablesQuery.element(boundBy: 0).swipeLeft()
-        tablesQuery.element(boundBy: 0).buttons["Delete"].tap()
-        
+        let firstTableCell = app.tables.firstMatch.cells.firstMatch
+        if firstTableCell.waitForExistence(timeout: 10.0){
+            swipeToDeleteCell(element: firstTableCell)
+        }
+        else{
+            self.addCityWithName(name: (cityObj1?.name)!)
+            swipeToDeleteCell(element: firstTableCell)
+        }
+    }
+    
+    func testChangeSorting(){
+        self.waitAndTapElement(element: app.buttons["High"])
+        self.waitAndTapElement(element: app.buttons["Low"])
+        self.waitAndTapElement(element: app.buttons["City"])
+    }
+    
+    func testWasAddingCityButGiveUp(){
+        self.waitAndTapElement(element: app.buttons["btn_add_city"])
+        self.waitAndTapElement(element: app.buttons["btn_back"])
     }
 }

@@ -12,7 +12,7 @@ import UIKit
 protocol CityAddProtocol: NSObjectProtocol{
     
     var searchBar : UISearchBar? { get set }
-    func setCities(_ cities: [CityObject])
+    func setCities(_ cities: [City])
     func setEmptyCities()
 }
 

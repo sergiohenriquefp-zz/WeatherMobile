@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CityListProtocol: NSObjectProtocol{
-    func setUserCities(_ cities: [CityObject])
+    func setUserCities(_ cities: [City])
     func setEmptyCities()
 }
 
@@ -47,26 +47,28 @@ class CityListPresenter{
         }
     }
     
-    func addUserCity(_ city:CityObject){
+    func addUserCity(_ city:City){
         self.saveUserCity(city)
         self.getUserCities()
     }
     
-    func removeUserCity(_ city:CityObject){
+    func removeUserCity(_ city:City){
         self.deleteUserCity(city)
         self.getUserCities()
     }
     
     //Persist
-    func saveUserCity(_ city:CityObject) {
+    func saveUserCity(_ city:City) {
         var userCitiesList = self.getSavedUserCities()
-        userCitiesList.append(city)
-        self.saveUserCities(userCitiesList)
-        let newUserCitiesList = getSavedUserCities()
-        self.cityListView?.setUserCities(newUserCitiesList)
+        if !userCitiesList.contains(where: {$0.id == city.id}) {
+            userCitiesList.append(city)
+            self.saveUserCities(userCitiesList)
+            let newUserCitiesList = getSavedUserCities()
+            self.cityListView?.setUserCities(newUserCitiesList)
+        }
     }
     
-    func deleteUserCity(_ city:CityObject) {
+    func deleteUserCity(_ city:City) {
         var userCitiesList = self.getSavedUserCities()
         if let i = userCitiesList.index(where: { $0.id == city.id }) {
             userCitiesList.remove(at: i)
@@ -76,19 +78,19 @@ class CityListPresenter{
         self.cityListView?.setUserCities(newUserCitiesList)
     }
     
-    func getSortedSavedUserCities() -> [CityObject] {
+    func getSortedSavedUserCities() -> [City] {
         
         var updatedUserCityList = self.getSavedUserCities()
         
         switch self.sort {
             case 0:
-                updatedUserCityList = updatedUserCityList.sorted { $0.city < $1.city }
+                updatedUserCityList = updatedUserCityList.sorted { $0.name < $1.name }
                 break
             case 1:
-                updatedUserCityList = updatedUserCityList.sorted { $0.temperature > $1.temperature }
+                updatedUserCityList = updatedUserCityList.sorted { $0.main.temp_max > $1.main.temp_max }
                 break
             case 2:
-                updatedUserCityList = updatedUserCityList.sorted { $0.temperature < $1.temperature }
+                updatedUserCityList = updatedUserCityList.sorted { $0.main.temp_min < $1.main.temp_min }
                 break
             default:
                 break
@@ -97,16 +99,16 @@ class CityListPresenter{
         return updatedUserCityList
     }
     
-    func getSavedUserCities() -> [CityObject] {
+    func getSavedUserCities() -> [City] {
         
         if let data = UserDefaults.standard.value(forKey:"userCitiesList") as? Data {
-            return try! PropertyListDecoder().decode(Array<CityObject>.self, from: data)
+            return try! PropertyListDecoder().decode(Array<City>.self, from: data)
         }
         
         return []
     }
     
-    func saveUserCities(_ cities:[CityObject]) {
+    func saveUserCities(_ cities:[City]) {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(cities), forKey:"userCitiesList")
     }
     

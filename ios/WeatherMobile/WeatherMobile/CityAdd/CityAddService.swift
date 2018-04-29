@@ -12,74 +12,46 @@ import Alamofire
 class CityAddService {
     
     //the service delivers mocked data with a delay
-    func searchCity(_ text:String, callBack:@escaping ([CityObject], String) -> Void){
+    
+    func searchCity(_ text:String, callBack:@escaping ([City], String) -> Void){
         
+        let apiKey = Bundle.main.infoDictionary!["WeatherAPI"] as! String
         let textEscaped = text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        let urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(textEscaped)&appid=f135ebb7b7464790d66696975b923a69"
+        let urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(textEscaped)&appid=\(apiKey)"
         
         Alamofire.request(urlString).responseJSON { response in
-            print("Request: \(String(describing: response.request))")   // original url request
-            print("Response: \(String(describing: response.response))") // http url response
-            print("Result: \(response.result)")                         // response serialization result
             
-            if response.response?.statusCode != 200 {
-                callBack([],text)
+            if let cityObj = self.parseResponseServiceCity(response){
+                callBack([cityObj], text)
                 return
             }
             
-            if let json = response.result.value as? [String : AnyObject]  {
-                
-                var cityId = ""
-                var cityName = ""
-                var cityTemp = ""
-                var cityTempMin = ""
-                var cityTempMax = ""
-                var cityHumidity = ""
-                var cityWeatherCondition = ""
-                
-                if let idCity = json["id"] as? Int64{
-                    cityId = String(format: "%d", idCity)
-                }
-                if let nameCity = json["name"] as? String{
-                    cityName = nameCity
-                }
-                if let cityMain = json["main"] as? [String : AnyObject]{
-                    let temperature = cityMain["temp"] as! Double
-                    cityTemp = String(format: "%.2f", temperature)
-                    
-                    let temperatureMin = cityMain["temp_min"] as! Double
-                    cityTempMin = String(format: "%.2f", temperatureMin)
-                    
-                    let temperatureMax = cityMain["temp_max"] as! Double
-                    cityTempMax = String(format: "%.2f", temperatureMax)
-                    
-                    let humidity = cityMain["humidity"] as! Double
-                    cityHumidity = String(format: "%.2f", humidity)
-                    
-                }
-                if let cityWeatherArray = json["weather"] as? [[String : AnyObject]]{
-                    
-                    if cityWeatherArray.count > 0 {
-                        if let cityWeatherObject = cityWeatherArray.first {
-                            cityWeatherCondition = cityWeatherObject["description"] as! String
-                        }
-                    }
-                }
-                
-                let cities = [CityObject(id:cityId,
-                                         city: cityName,
-                                         temperature: cityTemp,
-                                         minTemperature: cityTempMin,
-                                         maxTemperature: cityTempMax,
-                                         humidity: cityHumidity,
-                                         weatherCondition: cityWeatherCondition)]
-                
-                callBack(cities, text)
-                return
-            }
-        
             callBack([], text)
             return
+        }
+    }
+    
+    func parseResponseServiceCity(_ response:DataResponse<Any>) -> City?{
+        
+        if response.response?.statusCode == 200 {
+            if let json = response.data as Data?  {
+                if let cityObj = self.parseServiceCity(json){
+                    return cityObj
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    func parseServiceCity(_ jsonData:Data) -> City?{
+        
+        do {
+            let decoder = JSONDecoder()
+            let jsonData = try decoder.decode(City.self, from: jsonData)
+            return jsonData
+        } catch {
+            return nil
         }
     }
 }

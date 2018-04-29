@@ -21,8 +21,8 @@
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l9e-OZ-48C">
                                 <rect key="frame" x="0.0" y="48" width="375" height="569"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No City Available" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Xm-jh-IFu">
-                                        <rect key="frame" x="123.5" y="274.5" width="128.5" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No City On Your List, Please Add Some!!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Xm-jh-IFu">
+                                        <rect key="frame" x="35" y="274.5" width="306.5" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -53,15 +53,19 @@
                                     <segment title="High"/>
                                     <segment title="Low"/>
                                 </segments>
+                                <color key="tintColor" red="0.15605327490000001" green="0.51788169149999996" blue="0.79234427210000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="buttonSortTapWithSegControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="ROH-Ed-end"/>
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFp-e1-gCE">
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <color key="backgroundColor" red="0.15605327490000001" green="0.51788169149999996" blue="0.79234427210000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="btn_add_city"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="2jv-SY-44K"/>
                                 </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Add City"/>
                                 <connections>
                                     <action selector="buttonAddCityTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="g0T-vg-cP6"/>
@@ -107,10 +111,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nFT-tL-1eW">
-                                <rect key="frame" x="0.0" y="76" width="375" height="591"/>
+                                <rect key="frame" x="0.0" y="76" width="375" height="541"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No City For This Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-MW-D3Q">
-                                        <rect key="frame" x="101.5" y="285.5" width="172.5" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No City For This Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-MW-D3Q">
+                                        <rect key="frame" x="97" y="260.5" width="181" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -123,7 +127,7 @@
                                 </constraints>
                             </view>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OfL-3j-Ssm">
-                                <rect key="frame" x="0.0" y="76" width="375" height="591"/>
+                                <rect key="frame" x="0.0" y="76" width="375" height="541"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <sections/>
                                 <connections>
@@ -131,7 +135,7 @@
                                     <outlet property="delegate" destination="jrJ-4O-QP1" id="mDQ-9c-6TF"/>
                                 </connections>
                             </tableView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="O2I-Ke-NPC">
+                            <searchBar contentMode="redraw" placeholder="City, Country" translatesAutoresizingMaskIntoConstraints="NO" id="O2I-Ke-NPC">
                                 <rect key="frame" x="0.0" y="20" width="375" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="SPO-cc-Zh5"/>
@@ -141,20 +145,38 @@
                                     <outlet property="delegate" destination="jrJ-4O-QP1" id="bbS-7f-QXG"/>
                                 </connections>
                             </searchBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7A7-ap-PI5">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <color key="backgroundColor" red="0.15605327490000001" green="0.51788169149999996" blue="0.79234427210000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="btn_back"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="4uR-ik-uAS"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="r8b-Y8-BEp"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Don't Want Anymore"/>
+                                <connections>
+                                    <action selector="buttonAddCityTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jkv-7b-vAT"/>
+                                    <action selector="buttonBackTap:" destination="jrJ-4O-QP1" eventType="touchUpInside" id="rsM-yG-ekH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="7A7-ap-PI5" firstAttribute="top" secondItem="OfL-3j-Ssm" secondAttribute="bottom" id="8gg-la-Oar"/>
+                            <constraint firstItem="7A7-ap-PI5" firstAttribute="top" secondItem="nFT-tL-1eW" secondAttribute="bottom" id="E9b-MN-Dhm"/>
                             <constraint firstItem="O2I-Ke-NPC" firstAttribute="top" secondItem="cuI-6A-e6g" secondAttribute="top" id="Eqq-3I-NAe"/>
+                            <constraint firstItem="7A7-ap-PI5" firstAttribute="leading" secondItem="cuI-6A-e6g" secondAttribute="leading" id="Naw-cf-yrB"/>
                             <constraint firstItem="O2I-Ke-NPC" firstAttribute="trailing" secondItem="cuI-6A-e6g" secondAttribute="trailing" id="Q7d-z2-Pox"/>
+                            <constraint firstItem="7A7-ap-PI5" firstAttribute="bottom" secondItem="cuI-6A-e6g" secondAttribute="bottom" id="RWw-TR-zKw"/>
                             <constraint firstItem="nFT-tL-1eW" firstAttribute="top" secondItem="O2I-Ke-NPC" secondAttribute="bottom" id="Ud0-z0-VM2"/>
-                            <constraint firstItem="nFT-tL-1eW" firstAttribute="bottom" secondItem="cuI-6A-e6g" secondAttribute="bottom" id="WCE-uT-ILQ"/>
                             <constraint firstItem="nFT-tL-1eW" firstAttribute="leading" secondItem="cuI-6A-e6g" secondAttribute="leading" id="Wve-nd-2e0"/>
                             <constraint firstItem="OfL-3j-Ssm" firstAttribute="leading" secondItem="cuI-6A-e6g" secondAttribute="leading" id="X6J-va-mlt"/>
                             <constraint firstItem="OfL-3j-Ssm" firstAttribute="trailing" secondItem="cuI-6A-e6g" secondAttribute="trailing" id="XWM-vE-43o"/>
                             <constraint firstItem="OfL-3j-Ssm" firstAttribute="top" secondItem="O2I-Ke-NPC" secondAttribute="bottom" id="Zku-CB-VgD"/>
                             <constraint firstItem="nFT-tL-1eW" firstAttribute="trailing" secondItem="cuI-6A-e6g" secondAttribute="trailing" id="cbr-h3-6oG"/>
                             <constraint firstItem="O2I-Ke-NPC" firstAttribute="leading" secondItem="cuI-6A-e6g" secondAttribute="leading" id="ok0-J7-mTD"/>
-                            <constraint firstItem="OfL-3j-Ssm" firstAttribute="bottom" secondItem="cuI-6A-e6g" secondAttribute="bottom" id="yBo-dC-6zj"/>
+                            <constraint firstItem="7A7-ap-PI5" firstAttribute="trailing" secondItem="cuI-6A-e6g" secondAttribute="trailing" id="qEU-qr-5Xv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cuI-6A-e6g"/>
                     </view>

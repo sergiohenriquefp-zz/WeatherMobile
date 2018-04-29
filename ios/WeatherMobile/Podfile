@@ -11,11 +11,13 @@ target 'WeatherMobile' do
   target 'WeatherMobileTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'Alamofire'
   end
 
   target 'WeatherMobileUITests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'Alamofire'
   end
 
 end

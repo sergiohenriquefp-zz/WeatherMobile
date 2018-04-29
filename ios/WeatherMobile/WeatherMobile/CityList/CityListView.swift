@@ -16,8 +16,8 @@ class CityListView: UIViewController {
     @IBOutlet weak var segementedControl: UISegmentedControl!
     @IBOutlet weak var btnAddCity: UIButton!
     
-    fileprivate let cityListPresenter = CityListPresenter()
-    fileprivate var citiesToDisplay = [CityObject]()
+    let cityListPresenter = CityListPresenter()
+    fileprivate var citiesToDisplay = [City]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class CityListView: UIViewController {
         cityListPresenter.getUserCities()
     }
     
-    func getCitiesToDisplay() -> [CityObject] {
+    func getCitiesToDisplay() -> [City] {
         return citiesToDisplay
     }
     
@@ -60,8 +60,8 @@ extension CityListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "CityCell")
         let cityViewData = self.citiesToDisplay[indexPath.row]
-        cell.textLabel?.text = cityViewData.city
-        cell.detailTextLabel?.text = cityViewData.temperature
+        cell.textLabel?.text = String(format: "%@ - Min: %.2f - Max: %.2f", cityViewData.name, cityViewData.main.temp_min, cityViewData.main.temp_max)
+        cell.detailTextLabel?.text = String(format: "Humidity: %d%% - Weather: %@", cityViewData.main.humidity, cityViewData.weather[0].main)
         return cell
     }
 
@@ -69,7 +69,7 @@ extension CityListView: UITableViewDataSource {
 
 extension CityListView: CityListProtocol{
     
-    func setUserCities(_ cities: [CityObject]){
+    func setUserCities(_ cities: [City]){
         citiesToDisplay = cities
         tableView?.isHidden = false
         emptyView?.isHidden = true;
@@ -86,8 +86,12 @@ extension CityListView: CityListProtocol{
 
 extension CityListView: CityAddDelegate{
     
-    func addCity(_ city:CityObject){
+    func addCity(_ city:City){
         self.cityListPresenter.addUserCity(city)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func backTapped() {
         self.dismiss(animated: true, completion: nil)
     }
 }

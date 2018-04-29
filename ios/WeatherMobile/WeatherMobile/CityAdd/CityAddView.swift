@@ -9,7 +9,8 @@
 import UIKit
 
 protocol CityAddDelegate{
-    func addCity(_ city:CityObject)
+    func addCity(_ city:City)
+    func backTapped()
 }
 
 class CityAddView: UIViewController {
@@ -21,13 +22,17 @@ class CityAddView: UIViewController {
     var delegate: CityAddDelegate?
     
     var cityAddPresenter = CityAddPresenter(cityAddService: CityAddService())
-    fileprivate var citiesToDisplay = [CityObject]()
+    fileprivate var citiesToDisplay = [City]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         cityAddPresenter.attachView(self)
         cityAddPresenter.searchCities("")
+    }
+    
+    @IBAction func buttonBackTap(_ sender: Any) {
+        delegate?.backTapped()
     }
 }
 
@@ -39,8 +44,8 @@ extension CityAddView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "CityCell")
         let cityViewData = self.citiesToDisplay[indexPath.row]
-        cell.textLabel?.text = cityViewData.city
-        cell.detailTextLabel?.text = cityViewData.temperature
+        cell.textLabel?.text = String(format: "%@ - Min: %.2f - Max: %.2f", cityViewData.name, cityViewData.main.temp_min, cityViewData.main.temp_max)
+        cell.detailTextLabel?.text = String(format: "Humidity: %d%% - Weather: %@", cityViewData.main.humidity, cityViewData.weather[0].main)
         return cell
     }
 }
@@ -60,7 +65,7 @@ extension CityAddView : UISearchBarDelegate {
 }
 
 extension CityAddView: CityAddProtocol{
-    func setCities(_ cities: [CityObject]) {
+    func setCities(_ cities: [City]) {
         citiesToDisplay = cities
         tableView?.isHidden = false
         emptyView?.isHidden = true;
