@@ -1,0 +1,12 @@
+codecov:
+    token: 79391284-92fc-4f0a-a7b6-3810d81cd571
+
+coverage:
+  precision: 4         # how many decimal places to display in the UI: 0 <= value <= 4
+  round: down          # how coverage is rounded: down/up/nearest
+  range: 50...60      # custom range of coverage colors from red -> yellow -> green
+
+  ignore:
+    - "Pods/"
+
+
