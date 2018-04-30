@@ -102,7 +102,13 @@ class CityListPresenter{
     func getSavedUserCities() -> [City] {
         
         if let data = UserDefaults.standard.value(forKey:"userCitiesList") as? Data {
-            return try! PropertyListDecoder().decode(Array<City>.self, from: data)
+            do{
+                let cities = try PropertyListDecoder().decode(Array<City>.self, from: data)
+                return cities
+            }
+            catch{
+                
+            }
         }
         
         return []
