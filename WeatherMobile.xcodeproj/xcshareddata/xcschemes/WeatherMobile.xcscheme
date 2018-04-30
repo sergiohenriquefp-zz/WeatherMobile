@@ -28,6 +28,34 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "73B0FCA045BB301B6AB5E8830DF40295"
+               BuildableName = "Pods_WeatherMobileUITests.framework"
+               BlueprintName = "Pods-WeatherMobileUITests"
+               ReferencedContainer = "container:Pods/Pods.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8AE40F6E6D0F03629337A09C8D6F2BE7"
+               BuildableName = "Pods_WeatherMobileTests.framework"
+               BlueprintName = "Pods-WeatherMobileTests"
+               ReferencedContainer = "container:Pods/Pods.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "C36BA3B020915E53003EED7C"
                BuildableName = "WeatherMobile.app"
                BlueprintName = "WeatherMobile"
