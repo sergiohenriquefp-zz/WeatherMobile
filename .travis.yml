@@ -1,0 +1,6 @@
+language: objective-c
+osx_image: xcode9
+script:
+    - xcodebuild -scheme WeatherMobile -workspace WeatherMobile.xcworkspace -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 6S,OS=10.3.1" build test
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t 79391284-92fc-4f0a-a7b6-3810d81cd571
